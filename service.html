@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안내 서비스 목록 검색 시스템</title>
+    <style>
+        :root {
+            --primary-color: #4f46e5;
+            --primary-hover: #4338ca;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
+        }
+
+        body {
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1100px;
+        }
+
+        header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2rem;
+            color: #0f172a;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #64748b;
+        }
+
+        /* 검색 및 필터 섹션 */
+        .search-filter-container {
+            background: var(--card-background);
+            padding: 24px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .search-filter-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        /* 결과 통계 */
+        .stats {
+            margin-bottom: 16px;
+            font-size: 0.9rem;
+            color: #64748b;
+            font-weight: 500;
+        }
+
+        /* 테이블 섹션 */
+        .table-responsive {
+            background: var(--card-background);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th, td {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        th {
+            background-color: #f1f5f9;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background-color: #f8fafc;
+        }
+
+        /* 배지 스타일 */
+        .badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-online-true {
+            background-color: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-online-false {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .badge-category {
+            background-color: #e0f2fe;
+            color: #0369a1;
+        }
+
+        .callcenter-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .callcenter-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 검색 결과 없음 */
+        .no-result {
+            padding: 40px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>안내 서비스 검색 시스템</h1>
+        <p>필요한 민원, 복지, 세금, 교통 관련 안내 서비스를 실시간으로 검색하세요.</p>
+    </header>
+
+    <div class="search-filter-container">
+        <div class="form-group">
+            <label for="search-input">통합 검색</label>
+            <input type="text" id="search-input" placeholder="서비스명 또는 소관기관 입력...">
+        </div>
+        <div class="form-group">
+            <label for="category-filter">안내분야</label>
+            <select id="category-filter">
+                <option value="all">전체보기</option>
+                <option value="민원">민원</option>
+                <option value="복지">복지</option>
+                <option value="세금">세금</option>
+                <option value="교통">교통</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="online-filter">온라인 안내</label>
+            <select id="online-filter">
+                <option value="all">전체보기</option>
+                <option value="가능">가능</option>
+                <option value="불가">불가</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="stats" id="result-stats">검색 결과: 0건</div>
+
+    <div class="table-responsive">
+        <table id="service-table">
+            <thead>
+                <tr>
+                    <th>서비스ID</th>
+                    <th>서비스명</th>
+                    <th>안내분야</th>
+                    <th>소관기관</th>
+                    <th>온라인안내</th>
+                    <th>콜센터</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    // CSV 데이터를 자바스크립트 객체 배열로 변환하여 내장
+    const serviceData = [
+        { id: "A001", name: "주민등록 발급 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1374" },
+        { id: "A002", name: "전입신고 안내", category: "민원", agency: "보건복지부", online: "가능", call: "1352" },
+        { id: "A003", name: "인감증명 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1313" },
+        { id: "A004", name: "민원접수 안내", category: "민원", agency: "교육부", online: "가능", call: "1341" },
+        { id: "A005", name: "정부24 이용 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1356" },
+        { id: "A006", name: "기초연금 안내", category: "복지", agency: "행정안전부", online: "불가", call: "1386" },
+        { id: "A007", name: "복지급여 안내", category: "복지", agency: "고용노동부", online: "가능", call: "1319" },
+        { id: "A008", name: "장애인지원 안내", category: "복지", agency: "보건복지부", online: "가능", call: "1337" },
+        { id: "A009", name: "아동수당 안내", category: "복지", agency: "지자체", online: "가능", call: "1326" },
+        { id: "A010", name: "지방세 납부 안내", category: "세금", agency: "보건복지부", online: "가능", call: "1357" },
+        { id: "A011", name: "취득세 안내", category: "세금", agency: "국토교통부", online: "가능", call: "1341" },
+        { id: "A012", name: "재산세 안내", category: "세금", agency: "지자체", online: "가능", call: "1317" },
+        { id: "A013", name: "자동차등록 안내", category: "교통", agency: "국토교통부", online: "가능", call: "1399" }
+    ];
+
+    // DOM 요소 가져오기
+    const searchInput = document.getElementById('search-input');
+    const categoryFilter = document.getElementById('category-filter');
+    const onlineFilter = document.getElementById('online-filter');
+    const tableBody = document.getElementById('table-body');
+    const resultStats = document.getElementById('result-stats');
+
+    // 데이터를 테이블에 렌더링하는 함수
+    function renderTable(data) {
+        tableBody.innerHTML = '';
+        
+        if (data.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="6" class="no-result">검색 결과가 없습니다.</td></tr>`;
+            resultStats.textContent = `검색 결과: 0건`;
+            return;
+        }
+
+        data.forEach(item => {
+            const tr = document.createElement('tr');
+            
+            // 온라인 안내 여부에 따른 배지 스타일 분기
+            const onlineBadgeClass = item.online === '가능' ? 'badge-online-true' : 'badge-online-false';
+
+            tr.innerHTML = `
+                <td>${item.id}</td>
+                <td style="font-weight: 600;">${item.name}</td>
+                <td><span class="badge badge-category">${item.category}</span></td>
+                <td>${item.agency}</td>
+                <td><span class="badge ${onlineBadgeClass}">${item.online}</span></td>
+                <td><a href="tel:${item.call}" class="callcenter-link">${item.call}</a></td>
+            `;
+            tableBody.appendChild(tr);
+        });
+
+        resultStats.textContent = `검색 결과: ${data.length}건`;
+    }
+
+    // 필터링 및 검색 로직
+    function filterData() {
+        const searchText = searchInput.value.toLowerCase().trim();
+        const selectedCategory = categoryFilter.value;
+        const selectedOnline = onlineFilter.value;
+
+        const filtered = serviceData.filter(item => {
+            // 1. 검색어 필터 (서비스명 또는 소관기관 포함 여부)
+            const matchesSearch = item.name.toLowerCase().includes(searchText) || 
+                                  item.agency.toLowerCase().includes(searchText);
+            
+            // 2. 안내분야 필터
+            const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+            
+            // 3. 온라인 안내 필터
+            const matchesOnline = selectedOnline === 'all' || item.online === selectedOnline;
+
+            return matchesSearch && matchesCategory && matchesOnline;
+        });
+
+        renderTable(filtered);
+    }
+
+    // 이벤트 리스너 등록 (입력/변경이 일어날 때 마다 실시간 필터링)
+    searchInput.addEventListener('input', filterData);
+    categoryFilter.addEventListener('change', filterData);
+    onlineFilter.addEventListener('change', filterData);
+
+    // 초기 페이지 로드 시 전체 데이터 렌더링
+    renderTable(serviceData);
+</script>
+
+</body>
+</html>
