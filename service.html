@@ -235,20 +235,31 @@
 <script>
     // CSV 데이터를 자바스크립트 객체 배열로 변환하여 내장
     const serviceData = [
-        { id: "A001", name: "주민등록 발급 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1374" },
-        { id: "A002", name: "전입신고 안내", category: "민원", agency: "보건복지부", online: "가능", call: "1352" },
-        { id: "A003", name: "인감증명 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1313" },
-        { id: "A004", name: "민원접수 안내", category: "민원", agency: "교육부", online: "가능", call: "1341" },
-        { id: "A005", name: "정부24 이용 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1356" },
-        { id: "A006", name: "기초연금 안내", category: "복지", agency: "행정안전부", online: "불가", call: "1386" },
-        { id: "A007", name: "복지급여 안내", category: "복지", agency: "고용노동부", online: "가능", call: "1319" },
-        { id: "A008", name: "장애인지원 안내", category: "복지", agency: "보건복지부", online: "가능", call: "1337" },
-        { id: "A009", name: "아동수당 안내", category: "복지", agency: "지자체", online: "가능", call: "1326" },
-        { id: "A010", name: "지방세 납부 안내", category: "세금", agency: "보건복지부", online: "가능", call: "1357" },
-        { id: "A011", name: "취득세 안내", category: "세금", agency: "국토교통부", online: "가능", call: "1341" },
-        { id: "A012", name: "재산세 안내", category: "세금", agency: "지자체", online: "가능", call: "1317" },
-        { id: "A013", name: "자동차등록 안내", category: "교통", agency: "국토교통부", online: "가능", call: "1399" }
-    ];
+    { id: "A001", name: "주민등록 발급 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1374" },
+    { id: "A002", name: "전입신고 안내", category: "민원", agency: "보건복지부", online: "가능", call: "1352" },
+    { id: "A003", name: "인감증명 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1313" },
+    { id: "A004", name: "민원접수 안내", category: "민원", agency: "교육부", online: "가능", call: "1341" },
+    { id: "A005", name: "정부24 이용 안내", category: "민원", agency: "국토교통부", online: "가능", call: "1356" },
+    { id: "A006", name: "기초연금 안내", category: "복지", agency: "행정안전부", online: "불가", call: "1386" },
+    { id: "A007", name: "복지급여 안내", category: "복지", agency: "고용노동부", online: "가능", call: "1319" },
+    { id: "A008", name: "장애인지원 안내", category: "복지", agency: "보건복지부", online: "가능", call: "1337" },
+    { id: "A009", name: "아동수당 안내", category: "복지", agency: "지자체", online: "가능", call: "1326" },
+    { id: "A010", name: "지방세 납부 안내", category: "세금", agency: "보건복지부", online: "가능", call: "1357" },
+    { id: "A011", name: "취득세 안내", category: "세금", agency: "국토교통부", online: "가능", call: "1341" },
+    { id: "A012", name: "재산세 안내", category: "세금", agency: "지자체", online: "가능", call: "1317" },
+    { id: "A013", name: "자동차등록 안내", category: "교통", agency: "국토교통부", online: "가능", call: "1399" },
+    { id: "A014", name: "운전면허 갱신 안내", category: "교통", agency: "경찰청", online: "가능", call: "182" },
+    { id: "A015", name: "교통위반 과태료 안내", category: "교통", agency: "경찰청", online: "가능", call: "182" },
+    { id: "A016", name: "여권 발급 안내", category: "민원", agency: "외교부", online: "불가", call: "02-2002-0100" },
+    { id: "A017", name: "고용보험 안내", category: "복지", agency: "고용노동부", online: "가능", call: "1350" },
+    { id: "A018", name: "국민연금 상담", category: "복지", agency: "국민연금공단", online: "가능", call: "1355" },
+    { id: "A019", name: "건강보험 자격 안내", category: "복지", agency: "국민건강보험공단", online: "가능", call: "1577-1000" },
+    { id: "A020", name: "국세 연말정산 안내", category: "세금", agency: "국세청", online: "가능", call: "126" },
+    { id: "A021", name: "종합소득세 신고 안내", category: "세금", agency: "국세청", online: "가능", call: "126" },
+    { id: "A022", name: "부가가치세 안내", category: "세금", agency: "국세청", online: "가능", call: "126" },
+    { id: "A023", name: "고속도로 통행료 안내", category: "교통", agency: "한국도로공사", online: "가능", call: "1588-2504" },
+    { id: "A024", name: "대중교통 환승 안내", category: "교통", agency: "지자체", online: "가능", call: "120" }
+];
 
     // DOM 요소 가져오기
     const searchInput = document.getElementById('search-input');
